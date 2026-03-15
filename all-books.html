@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#8B4513",
+                        "primary-hover": "#6B3410",
+                        "background-light": "#F5E6D3",
+                        "accent-gold": "#D4AF37",
+                        "book-brown": "#3E2723",
+                        "shelf-wood": "#8B4513",
+                    },
+                    fontFamily: {
+                        "display": ["Georgia", "serif"]
+                    },
+                    borderRadius: {
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer components {
+            .book-card {
+                @apply bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-book-brown rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:border-accent-gold;
+                box-shadow: 0 4px 8px rgba(62, 39, 35, 0.2);
+            }
+            .read-button {
+                @apply mt-auto w-full bg-shelf-wood text-white py-2.5 px-4 rounded-md font-serif text-sm transition-colors duration-300 hover:bg-book-brown flex items-center justify-center gap-2;
+            }
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Public Sans', Arial, sans-serif;
+            font-size: 1.25rem;
+            line-height: 1.85;
+            color: #3E2723;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)), url('https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: #2f2a24;
+        }
+
+        h1 { font-size: clamp(3.8rem, 6vw, 5rem); }
+        h3 { font-size: clamp(1.4rem, 3vw, 2rem); }
+        p, a, button, li { font-size: 1.3rem; }
+        .read-button { font-size: 1.2rem; }
+
+        .page-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.55);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #3E2723;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+        }
+
+        h3 {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+        }
+
+        p,
+        .book-card p,
+        .genre-btn,
+        .read-button,
+        .book-card span,
+        .book-card .text-sm {
+            font-size: 1rem;
+            color: #4a342e;
+        }
+
+        .read-button {
+            font-size: 1rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .book-card {
+            border: 1px solid rgba(62, 39, 35, 0.25);
+            background: linear-gradient(135deg, #fffdf8, #fef5e4);
+            color: #2f1f18;
+        }
+
+        .book-card h3 {
+            color: #2f1f18;
+        }
+
+        .book-card p,
+        .book-card span {
+            color: #53423b;
+        }
+
+        .book-card .star-container {
+            color: #d69e3a;
+            font-size: 1rem;
+            line-height: 1.2;
+        }
+
+        #genre-buttons button,
+        .genre-btn {
+            font-size: 1rem;
+            min-width: 92px;
+            line-height: 1.3;
+        }
+    </style>
+<title>All Books List</title>
+</head>
+<body class="bg-gradient-to-br from-background-light via-amber-50 to-yellow-50 font-display text-book-brown">
+<div class="absolute top-4 left-4 z-10">
+  <a href="index.html" class="bg-shelf-wood hover:bg-book-brown text-white px-6 py-2 rounded-md font-serif font-bold transition-colors">Home</a>
+</div>
+<div class="relative min-h-screen w-full flex flex-col items-center">
+<main class="w-full px-4 py-16 lg:px-6">
+<div class="mb-12 text-center">
+<h1 class="text-5xl font-serif font-bold tracking-tight text-book-brown sm:text-6xl mb-4">📚 All Books List</h1>
+<p class="text-base sm:text-lg text-book-brown max-w-2xl mx-auto font-semibold leading-relaxed">Explore our curated collection of literary classics and contemporary masterpieces.</p>
+</div>
+<div id="genre-buttons" class="mb-8 flex flex-wrap justify-center gap-4">
+  <!-- buttons injected by JS -->
+</div>
+<div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+  <!-- cards injected by JS -->
+</div>
+<script>
+const books = [
+  {title:"Harry Potter and the Sorcerer's Stone", author:"J. K. Rowling", date:"1997", rating:4.5, genre:"Fantasy", summary:"A young boy discovers he is a wizard and attends Hogwarts School of Witchcraft and Wizardry, where he uncovers the mystery behind the Sorcerer’s Stone and his connection to a dark wizard.", img:"https://cdn.kobo.com/book-images/54f1aa69-e4ec-4640-afc9-60e7fe784f91/353/569/90/False/harry-potter-and-the-sorcerer-s-stone-the-first-book-in-the-phenomenal-internationally-bestselling-harry-potter-series-by-j-k-rowling.jpg", link:"https://www.kobo.com/ph/en/ebook/harry-potter-and-the-sorcerer-s-stone-the-first-book-in-the-phenomenal-internationally-bestselling-harry-potter-series-by-j-k-rowling?srsltid=AfmBOoq2kT6xm2vPabwnRq7kGXZYcNYEQFdPfd7Huk0UJEkRfg4oxXVt"},
+  {title:"The Hobbit", author:"J. R. R. Tolkien", date:"1937", rating:4.7, genre:"Fantasy", summary:"Bilbo Baggins, a quiet hobbit, goes on an unexpected journey with dwarves to reclaim their treasure from the dragon Smaug.", img:"https://www.thebookdesigner.com/wp-content/uploads/2023/12/The-Hobbit-Book-Cover-with-Bilbos-barrel-ride.jpg?channel=Organic&medium=Google%20-%20Search.jpg", link:"https://www.shakespeareandcompany.com/books/the-hobbit-3?srsltid=AfmBOoq0Ts80BcDT8RUQPeYm9gLJqF0bjkxi7vmJhCcAnChyTP7jtqbw"},
+  {title:"Pride and Prejudice", author:"Jane Austen", date:"1813", rating:4.6, genre:"Romance", summary:"Elizabeth Bennet navigates issues of love, marriage, and social class while slowly developing feelings for the reserved Mr. Darcy.", img:"https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1461620558i/1886.jpg", link:"https://www.kobo.com/ph/en/ebook/pride-prejudice-13?srsltid=AfmBOooYQPPgJwJZYNZHjPqdbECWE4jZHsnI3_Pf36mSdPbpSP30d_cp"},
+  {title:"The Fault in Our Stars", author:"John Green", date:"2012", rating:4.4, genre:"Romance", summary:"Two teenagers with cancer meet and fall in love, sharing a deep and emotional journey about life, love, and loss.", img:"https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/The_Fault_in_Our_Stars.jpg/250px-The_Fault_in_Our_Stars.jpg", link:"https://en.wikipedia.org/wiki/The_Fault_in_Our_Stars"},
+  {title:"The Adventures of Sherlock Holmes", author:"Arthur Conan Doyle", date:"1892", rating:4.5, genre:"Mystery", summary:"A collection of detective stories where Sherlock Holmes uses logic and observation to solve puzzling crimes in London.", img:"https://upload.wikimedia.org/wikipedia/commons/b/b9/Adventures_of_sherlock_holmes.jpg", link:"https://www.kobo.com/ph/en/ebook/the-great-adventures-of-sherlock-holmes-1?srsltid=AfmBOor8Dsj_98QbCvo9ctHMagTyZmwUSoDbtsYuQW1f_nQ-hrP14HK2"},
+  {title:"Gone Girl", author:"Gillian Flynn", date:"2012", rating:4.1, genre:"Mystery", summary:"When Amy Dunne disappears, suspicion falls on her husband, revealing shocking secrets and twists about their marriage.", img:"https://m.media-amazon.com/images/I/51BRd52XJSL._SY445_SX342_ML2_.jpg", link:"https://www.amazon.co.uk/Gone-Girl-Gillian-Flynn/dp/0297859382"},
+{title:"Divergent", author:"Veronica Roth", date:"2011", rating:4.2, genre:"Science Fiction", summary:"In a society divided into factions, Tris discovers she doesn’t fit into just one group and uncovers a dangerous conspiracy.", img:"https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Divergent_%28book%29_by_Veronica_Roth_US_Hardcover_2011.jpg/250px-Divergent_%28book%29_by_Veronica_Roth_US_Hardcover_2011.jpg", link:"https://en.wikipedia.org/wiki/Divergent_%28novel%29"},
+  {title:"The Hunger Games", author:"Suzanne Collins", date:"2008", rating:4.7, genre:"Science Fiction", summary:"Katniss Everdeen volunteers for a deadly televised competition where only one tribute can survive.", img:"https://upload.wikimedia.org/wikipedia/en/d/dc/The_Hunger_Games.jpg", link:"https://www.kobo.com/ph/en/ebook/the-hunger-games-hunger-games-book-one?srsltid=AfmBOopFHzuuhYf-zaAa3XYnxAQLQnaU4NBDPTQSKVAETvwojl3h2dVo"},
+{title:"Noli Me Tangere", author:"José Rizal", date:"1887", rating:4.8, genre:"Historical Fiction", summary:"Crisóstomo Ibarra returns to the Philippines and witnesses the injustices of Spanish colonial rule, exposing corruption and social inequality.", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK8FD0NS_txv0PLaYF5Bkdaf6rYINP7qvAzQ&s", link:"https://www.penguinrandomhouse.com/books/291131/noli-me-tangere-touch-me-not-by-jose-rizal/"},
+  {title:"The Book Thief", author:"Markus Zusak", date:"2005", rating:4.6, genre:"Historical Fiction", summary:"Set in Nazi Germany, a young girl named Liesel finds comfort in stealing books and sharing them during the hardships of war.", img:"https://m.media-amazon.com/images/I/71H2SJik5AL._SY425_.jpg", link:"https://www.amazon.com/-/he/Book-Thief-Zusak-Markus/dp/0552773891"}
+];
+
+function renderBooks(list) {
+  const grid = document.getElementById('books-grid');
+  grid.innerHTML = '';
+  list.forEach(book => {
+    const card = document.createElement('div');
+    card.className = 'book-card flex flex-col';
+    card.innerHTML = `
+      <div class="aspect-[3/4] overflow-hidden group">
+        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="${book.img}" alt="${book.title}">
+      </div>
+      <div class="p-5 flex-1 flex flex-col">
+        <h3 class="font-bold text-lg text-slate-900 leading-tight mb-1">${book.title}</h3>
+        <p class="text-sm font-medium text-slate-500 mb-3">${book.author} (${book.date})</p>
+        <div class="flex items-center gap-1 mb-4">
+          <div class="flex text-yellow-400 star-container"></div>
+          <span class="text-xs font-bold text-slate-400 ml-1">${book.rating.toFixed(1)}/5</span>
+        </div>
+        <button class="read-button">
+          <span class="material-symbols-outlined text-sm">menu_book</span> View Details
+        </button>
+      </div>
+    `;
+    // populate stars
+    const starDiv = card.querySelector('.star-container');
+    starDiv.textContent = '★'.repeat(Math.floor(book.rating));
+    card.querySelector('button').addEventListener('click', () => {
+      localStorage.setItem('selectedBook', JSON.stringify(book));
+      window.location.href = 'book-details.html';
+    });
+    grid.appendChild(card);
+  });
+}
+
+function setupGenres() {
+  const genres = [...new Set(books.map(b => b.genre))];
+  const btnContainer = document.getElementById('genre-buttons');
+  let activeBtn = null;
+  const makeActive = (btn) => {
+    if (activeBtn) {
+      activeBtn.classList.remove('bg-shelf-wood', 'text-white');
+      activeBtn.classList.add('bg-amber-100', 'text-book-brown');
+    }
+    btn.classList.remove('bg-amber-100', 'text-book-brown');
+    btn.classList.add('bg-shelf-wood', 'text-white');
+    activeBtn = btn;
+  };
+
+  const allBtn = document.createElement('button');
+  allBtn.textContent = 'All';
+  allBtn.className = 'px-4 py-2 rounded-full bg-shelf-wood text-white font-serif font-bold';
+  allBtn.addEventListener('click', () => {
+    renderBooks(books);
+    makeActive(allBtn);
+  });
+  btnContainer.appendChild(allBtn);
+  activeBtn = allBtn;
+
+  genres.forEach(genre => {
+    const btn = document.createElement('button');
+    btn.textContent = genre;
+    btn.className = 'px-4 py-2 rounded-full bg-amber-100 text-book-brown hover:bg-accent-gold font-serif font-bold';
+    btn.addEventListener('click', () => {
+      renderBooks(books.filter(b => b.genre === genre));
+      makeActive(btn);
+    });
+    btnContainer.appendChild(btn);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupGenres();
+  renderBooks(books);
+});
+</script>
+<footer class="bg-yellow-50 text-book-brown border-t border-slate-300 py-8 mt-12">
+  <div class="bottom-content-fixed-width mx-auto px-4" style="max-width:1200px;">
+    <div class="t-bottom-top-container grid md:grid-cols-1 gap-8 mb-8 text-left">
+      <div class="t-bottom-item-wrapper t-bottom-flex">
+        <ul class="space-y-2">
+          <li>Gabriel Rey P. Mahusay</li>
+          <li>John Patrick A. Pangan</li>
+          <li>Santino S. Tumali</li>
+          <li>Kevin Vaughan Alfred B. Borromeo</li>
+        </ul>
+      </div>
+      <div class="t-bottom-item-wrapper t-bottom-flex border-t border-slate-300 pt-4">
+        <ul class="space-y-2">
+          <li>San Pedro National High School</li>
+          <li>11 - TVL Graham Bell</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="t-bottom-down-container text-center text- text-slate-500">
+      <div class="t-bottom-item-wrapper">
+        © 2026 eBookShelf. All rights reserved.
+      </div>
+    </div>
+  </div>
+</footer>
+</body></html>
+
